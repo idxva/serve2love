@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Serve2love — Sustainable Surplus Marketplace</title>
+  <meta name="description" content="Serve2love connects quality restaurants with surplus meals to local diners at 30–80% off, reducing food waste and carbon emissions.">
+  <meta name="keywords" content="food waste, surplus food, sustainable dining, restaurant deals, eco-friendly">
+
+  <!-- Fonts (Playfair Display for Logo & Editorial Headlines, Plus Jakarta Sans for UI) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- QR Code library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav id="navbar">
+  <div class="nav-wrap">
+    <a href="#" class="nav-logo" onclick="FRApp.showView('landing');return false;">
+      <svg class="logo-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M11 20A9 9 0 0 0 20 11V3h-8a9 9 0 0 0-9 9 9 9 0 0 0 8 8z"></path>
+        <path d="M11 20c0-6 4-10 9-10"></path>
+      </svg>
+      <span class="logo-serif-accent">Serve2love</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#" id="nav-find-food"   class="nav-link" onclick="FRApp.showView('customer');return false;">Explore Deals</a>
+      <a href="#" id="nav-restaurant"  class="nav-link" onclick="FRApp.showView('restaurant');return false;">Restaurant Portal</a>
+      <a href="#" id="nav-impact"      class="nav-link" onclick="FRApp.showView('impact');return false;">Impact Dashboard</a>
+    </div>
+
+    <div class="nav-actions">
+      <div class="nav-live"><span class="live-dot"></span>Market Open</div>
+      <button class="btn-nav" onclick="FRApp.showView('customer')">Find Nearby Meals</button>
+    </div>
+
+    <button class="nav-mobile-btn" onclick="toggleMobileMenu()">☰</button>
+  </div>
+
+  <!-- Mobile menu -->
+  <div class="mobile-menu hidden" id="mobile-menu">
+    <a href="#" onclick="FRApp.showView('customer');return false;">Explore Deals</a>
+    <a href="#" onclick="FRApp.showView('restaurant');return false;">Restaurant Portal</a>
+    <a href="#" onclick="FRApp.showView('impact');return false;">Impact Dashboard</a>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     LANDING VIEW
+     ============================================================ -->
+<div id="view-landing" class="view">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <div class="hero-inner">
+      <!-- Left: Content -->
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="badge-pulse"></span>
+          Sustainable Surplus Dining
+        </div>
+
+        <h1 class="hero-title">
+          Rescue Surplus.<br>
+          <span class="hero-serif-italic">Save Money.</span><br>
+          Savor Sustainability.
+        </h1>
+
+        <p class="hero-sub">
+          Top local venues list fresh unsold meals before closing. Enjoy exceptional food at up to <strong>80% off</strong> while preventing carbon emissions.
+        </p>
+
+        <div class="hero-actions">
+          <button class="btn-primary btn-lg" id="hero-cta-customer" onclick="FRApp.showView('customer')">
+            Explore Deals Near Me →
+          </button>
+          <button class="btn-outline btn-lg" id="hero-cta-restaurant" onclick="FRApp.showView('restaurant')">
+            Partner Venue Portal
+          </button>
+        </div>
+
+        <!-- Live Stats -->
+        <div class="hero-stats">
+          <div class="hs-item">
+            <span class="hs-num" id="landing-stat-meals">0</span>
+            <span class="hs-lbl">Meals Rescued</span>
+          </div>
+          <div class="hs-div"></div>
+          <div class="hs-item">
+            <span class="hs-num" id="landing-stat-co2">0<span class="hs-unit">t</span></span>
+            <span class="hs-lbl">CO₂ Prevented</span>
+          </div>
+          <div class="hs-div"></div>
+          <div class="hs-item">
+            <span class="hs-num" id="landing-stat-restaurants">0</span>
+            <span class="hs-lbl">Partner Venues</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Floating preview cards -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="float-stack">
+          <div class="fc fc-1">
+            <span class="fc-em">🍝</span>
+            <div>
+              <div class="fc-name">Artisanal Carbonara</div>
+              <div class="fc-price"><s>$18.00</s> → <span class="gp">$9.00</span></div>
+            </div>
+            <div class="fc-badge amb">50% OFF</div>
+          </div>
+          <div class="fc fc-2">
+            <span class="fc-em">🥐</span>
+            <div>
+              <div class="fc-name">Patisserie Box</div>
+              <div class="fc-price gp">DONATION</div>
+            </div>
+            <div class="fc-badge grn">FREE</div>
+          </div>
+          <div class="fc fc-3">
+            <span class="fc-em">🌮</span>
+            <div>
+              <div class="fc-name">Taco Trio Box</div>
+              <div class="fc-price"><s>$16.00</s> → <span class="gp">$3.20</span></div>
+            </div>
+            <div class="fc-badge hot">80% OFF</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="hiw" id="how-it-works">
+    <div class="sec-wrap">
+      <div class="sec-label">Refined Process</div>
+      <h2 class="sec-title">How Serve2love Operates</h2>
+      <p class="sec-sub">Connecting conscious diners with surplus kitchen inventory in three seamless steps.</p>
+
+      <div class="steps-row">
+        <div class="step-card">
+          <div class="step-num">01</div>
+          <h3>Venues Upload Surplus</h3>
+          <p>Partner restaurants list high-quality surplus meals before service ends. Automatic discounts scale dynamically as closing time approaches.</p>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step-card">
+          <div class="step-num">02</div>
+          <h3>Diners Discover Deals</h3>
+          <p>Browse nearby offers filtered by cuisine, price point, or instant donation. Real-time updates notify you of newly listed surprise boxes.</p>
+        </div>
+        <div class="step-arrow" aria-hidden="true">→</div>
+        <div class="step-card">
+          <div class="step-num">03</div>
+          <h3>Reserve &amp; Pick Up</h3>
+          <p>Reserve seamlessly in-app to receive your digital QR pass. Present your pass at the counter during the designated pickup window.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Benefits -->
+  <section class="benefits">
+    <div class="sec-wrap">
+      <div class="benefits-card">
+        <div class="bgrp">
+          <div class="bgrp-hdr">
+            <span class="bgrp-ico">✨</span>
+            <h3>For Diners</h3>
+          </div>
+          <ul class="blist">
+            <li>✓ Access premier restaurant meals at 30–80% off</li>
+            <li>✓ Claim verified zero-cost community food donations</li>
+            <li>✓ Discover acclaimed local culinary venues</li>
+            <li>✓ Directly lower your personal environmental footprint</li>
+            <li>✓ Instant QR verification for quick counter pickup</li>
+          </ul>
+        </div>
+        <div class="b-div"></div>
+        <div class="bgrp">
+          <div class="bgrp-hdr">
+            <span class="bgrp-ico">🏛️</span>
+            <h3>For Restaurants</h3>
+          </div>
+          <ul class="blist">
+            <li>✓ Recover inventory costs on unsold gourmet items</li>
+            <li>✓ Eliminate commercial kitchen waste disposal fees</li>
+            <li>✓ Strengthen venue sustainability credentials</li>
+            <li>✓ Introduce new customers to your menu offering</li>
+            <li>✓ Track detailed monthly carbon avoidance analytics</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Deals Preview -->
+  <section class="featured" id="featured-deals">
+    <div class="sec-wrap">
+      <div class="sec-label">Live Marketplace</div>
+      <h2 class="sec-title">Surplus Meals Available Now</h2>
+      <p class="sec-sub">Real-time inventory updated live from nearby partner kitchens.</p>
+      <div class="food-grid" id="landing-featured-grid">
+        <!-- Populated by JS -->
+      </div>
+      <div class="feat-cta">
+        <button class="btn-primary btn-lg" onclick="FRApp.showView('customer')">Explore All Available Deals →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-logo">Serve<span class="logo-serif-accent">2love</span></div>
+    <p class="footer-tag">The sustainable marketplace for surplus culinary craft.</p>
+    <div class="footer-stats">
+      <span><strong>24,731+</strong> meals rescued</span>
+      <span>·</span>
+      <span><strong>14.2 tonnes</strong> CO₂ avoided</span>
+      <span>·</span>
+      <span><strong>1,248</strong> venue partners</span>
+    </div>
+    <p class="footer-copy">© 2026 Serve2love · Architectural Simplicity in Sustainable Tech</p>
+  </footer>
+</div><!-- /view-landing -->
+
+
+<!-- ============================================================
+     CUSTOMER VIEW
+     ============================================================ -->
+<div id="view-customer" class="view hidden">
+
+  <div class="page-hdr">
+    <div class="page-hdr-inner">
+      <div>
+        <h1 class="page-title">Curated Surplus Deals</h1>
+        <p class="page-sub">Fresh surplus inventory from top culinary kitchens · Updated in real time</p>
+      </div>
+      <button class="btn-outline btn-sm" onclick="FRCustomer.simulateNotification()" id="notif-sim-btn">
+        Simulate Notification
+      </button>
+    </div>
+  </div>
+
+  <!-- Notification banner -->
+  <div class="notif-banner hidden" id="notification-banner">
+    <span>Notice</span>
+    <span id="notification-text">New deal just dropped!</span>
+    <button class="notif-close" onclick="document.getElementById('notification-banner').classList.add('hidden')">✕</button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-bar">
+    <div class="filter-inner">
+      <div class="search-wrap">
+        <span class="search-ico">🔍</span>
+        <input type="text" id="customer-search" placeholder="Search dish, venue, or cuisine…"
+               oninput="FRCustomer.filterListings()" aria-label="Search food deals">
+      </div>
+
+      <div class="chips" id="customer-filters" role="group" aria-label="Filter by category">
+        <button class="filter-chip active" data-filter="all"      onclick="FRCustomer.setFilter('all',this)">All Deals</button>
+        <button class="filter-chip"        data-filter="free"     onclick="FRCustomer.setFilter('free',this)">Donations (Free)</button>
+        <button class="filter-chip"        data-filter="urgent"   onclick="FRCustomer.setFilter('urgent',this)">&lt; 30 Mins Left</button>
+        <button class="filter-chip"        data-filter="vegan"    onclick="FRCustomer.setFilter('vegan',this)">Vegan</button>
+        <button class="filter-chip"        data-filter="italian"  onclick="FRCustomer.setFilter('italian',this)">Italian</button>
+        <button class="filter-chip"        data-filter="japanese" onclick="FRCustomer.setFilter('japanese',this)">Japanese</button>
+        <button class="filter-chip"        data-filter="indian"   onclick="FRCustomer.setFilter('indian',this)">Indian</button>
+        <button class="filter-chip"        data-filter="pizza"    onclick="FRCustomer.setFilter('pizza',this)">Pizza</button>
+        <button class="filter-chip"        data-filter="bakery"   onclick="FRCustomer.setFilter('bakery',this)">Patisserie</button>
+      </div>
+
+      <select class="sort-sel" id="customer-sort" onchange="FRCustomer.filterListings()" aria-label="Sort deals">
+        <option value="discount">Highest Discount</option>
+        <option value="time">Closing Soon</option>
+        <option value="distance">Nearest First</option>
+        <option value="price">Lowest Price</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Results bar -->
+  <div class="results-row">
+    <span class="results-count" id="customer-count">Loading…</span>
+    <div class="live-ind"><span class="live-dot"></span> Live Feed Active</div>
+  </div>
+
+  <!-- Grid -->
+  <div class="grid-wrap">
+    <div class="food-grid" id="customer-grid">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+</div><!-- /view-customer -->
+
+
+<!-- ============================================================
+     RESTAURANT VIEW
+     ============================================================ -->
+<div id="view-restaurant" class="view hidden">
+
+  <div class="page-hdr">
+    <div class="page-hdr-inner">
+      <div>
+        <h1 class="page-title">Venue Partner Portal</h1>
+        <p class="page-sub">Manage surplus inventory, monitor reservations and audit venue impact</p>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <button class="btn-reset" onclick="FRRestaurant.resetDemoData()" title="Reset demo data">Reset Demo</button>
+        <button class="btn-primary" id="restaurant-add-btn" onclick="FRRestaurant.showAddForm()">
+          + Add New Surplus Listing
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="dash-stats">
+    <div class="stat-card">
+      <div class="sc-val" id="restaurant-active-count">0</div>
+      <div class="sc-lbl">Active Listings</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-val" id="restaurant-reservations-today">0</div>
+      <div class="sc-lbl">Today's Reservations</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-val" id="restaurant-revenue-saved">$0.00</div>
+      <div class="sc-lbl">Recovered Revenue</div>
+    </div>
+    <div class="stat-card">
+      <div class="sc-val" id="restaurant-meals-donated">0</div>
+      <div class="sc-lbl">Donated Meals</div>
+    </div>
+  </div>
+
+  <!-- Add Listing Panel -->
+  <div class="panel-wrap" id="add-listing-panel" style="display:none;">
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Publish Surplus Item</h3>
+        <button class="btn-ghost" onclick="FRRestaurant.hideAddForm()">✕ Cancel</button>
+      </div>
+      <div class="add-form-body">
+        <form id="add-listing-form" onsubmit="FRRestaurant.submitListing(event)">
+
+          <div class="form-row">
+            <div class="fgrp">
+              <label for="form-restaurant-name">Restaurant / Venue Name *</label>
+              <input type="text" id="form-restaurant-name" placeholder="e.g. The Grand Bistro" required>
+            </div>
+            <div class="fgrp">
+              <label for="form-address">Location Address</label>
+              <input type="text" id="form-address" placeholder="e.g. 42 Main Street, Suite 100">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="fgrp">
+              <label for="form-food-name">Item Name *</label>
+              <input type="text" id="form-food-name" placeholder="e.g. Truffle Pasta Box" required>
+            </div>
+            <div class="fgrp">
+              <label for="form-emoji">Category Icon</label>
+              <input type="text" id="form-emoji" placeholder="🍝" maxlength="2" value="🍽️">
+            </div>
+          </div>
+
+          <div class="form-row one">
+            <div class="fgrp">
+              <label for="form-description">Item Description *</label>
+              <textarea id="form-description" rows="2" placeholder="Detail the meal contents, portion size, and dietary notes…" required></textarea>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="fgrp">
+              <label for="form-cuisine">Cuisine Type *</label>
+              <select id="form-cuisine" required>
+                <option value="">Select cuisine…</option>
+                <option value="Italian">Italian</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Indian">Indian</option>
+                <option value="Mexican">Mexican</option>
+                <option value="Chinese">Chinese</option>
+                <option value="Vegan">Vegan</option>
+                <option value="Bakery">Bakery</option>
+                <option value="Korean">Korean</option>
+                <option value="Pizza">Pizza</option>
+                <option value="Thai">Thai</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="fgrp">
+              <label for="form-original-price">Original Menu Price ($) *</label>
+              <input type="number" id="form-original-price" placeholder="18.00" min="0.01" step="0.01" required
+                     oninput="FRRestaurant.updateDiscountPreview()">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="fgrp">
+              <label for="form-quantity">Quantity Available *</label>
+              <input type="number" id="form-quantity" placeholder="5" min="1" max="999" required>
+            </div>
+            <div class="fgrp">
+              <label for="form-closing-hours">Hours Until Pickup Close *</label>
+              <input type="number" id="form-closing-hours" placeholder="2.0" min="0.25" max="12" step="0.25" required
+                     oninput="FRRestaurant.updateDiscountPreview()">
+            </div>
+          </div>
+
+          <!-- Donation toggle -->
+          <div class="toggle-row">
+            <label class="toggle-lbl" for="form-is-donation">
+              <span>List as Free Community Donation</span>
+              <input type="checkbox" id="form-is-donation" onchange="FRRestaurant.updateDiscountPreview()">
+            </label>
+            <span class="toggle-hint">Diners reserve at zero charge — ideal for surplus nearing service cutoff.</span>
+          </div>
+
+          <!-- Discount Preview -->
+          <div class="disc-preview">
+            <div class="dp-lbl">Dynamic Discount Calculation</div>
+            <div class="dp-val" id="discount-preview-content">Enter original price and closing hours to preview rate</div>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn-outline" onclick="FRRestaurant.hideAddForm()">Cancel</button>
+            <button type="submit" class="btn-primary">Publish Listing</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Current Listings -->
+  <div class="panel-wrap">
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Active Inventory Listings</h3>
+        <span class="panel-badge" id="listings-count-badge">0 total</span>
+      </div>
+      <div class="tbl-wrap">
+        <table class="listings-tbl">
+          <thead>
+            <tr>
+              <th>Item Name</th>
+              <th>Cuisine</th>
+              <th>Quantity Left</th>
+              <th>Original Price</th>
+              <th>Discount</th>
+              <th>Final Price</th>
+              <th>Pickup Closes</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="restaurant-listings-tbody">
+            <tr class="empty-row">
+              <td colspan="9">No active surplus listings. Click "+ Add New Surplus Listing" to begin.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Restaurant Impact -->
+  <div class="panel-wrap" style="margin-bottom:60px;">
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Venue Environmental Impact</h3>
+        <span class="panel-badge">Current Month</span>
+      </div>
+      <div class="mini-impact-grid">
+        <div class="mic">
+          <div class="mic-val" id="restaurant-impact-meals">0</div>
+          <div class="mic-lbl">Meals Saved</div>
+        </div>
+        <div class="mic">
+          <div class="mic-val" id="restaurant-impact-co2">0 kg</div>
+          <div class="mic-lbl">CO₂ Prevented</div>
+        </div>
+        <div class="mic">
+          <div class="mic-val" id="restaurant-impact-water">0 L</div>
+          <div class="mic-lbl">Water Conserved</div>
+        </div>
+        <div class="mic">
+          <div class="mic-val" id="restaurant-impact-rating">Eco Verified</div>
+          <div class="mic-lbl">Sustainability Tier</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /view-restaurant -->
+
+
+<!-- ============================================================
+     IMPACT VIEW
+     ============================================================ -->
+<div id="view-impact" class="view hidden">
+
+  <div class="page-hdr">
+    <div class="page-hdr-inner">
+      <div>
+        <h1 class="page-title">Environmental Impact Audit</h1>
+        <p class="page-sub">Verified real-time analytics on food waste mitigation across network venues</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero number -->
+  <div class="impact-hero">
+    <div class="impact-hero-card">
+      <div class="ihc-val" id="impact-total-meals">0</div>
+      <div class="ihc-lbl">Total Surplus Meals Rescued</div>
+      <div class="ihc-sub">Tracked across all partner kitchens since platform launch</div>
+    </div>
+  </div>
+
+  <!-- Metrics -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="m-val" id="impact-total-co2">0</div>
+      <div class="m-unit">tonnes CO₂</div>
+      <div class="m-lbl">Carbon Emissions Avoided</div>
+      <div class="m-equiv">≈ <span id="impact-co2-cars">0</span> annual car emissions removed</div>
+    </div>
+    <div class="metric-card">
+      <div class="m-val" id="impact-total-kg">0</div>
+      <div class="m-unit">kilograms</div>
+      <div class="m-lbl">Surplus Inventory Diverted</div>
+      <div class="m-equiv">≈ <span id="impact-kg-meals">0</span> family meals equivalent</div>
+    </div>
+    <div class="metric-card">
+      <div class="m-val" id="impact-total-water">0</div>
+      <div class="m-unit">thousand litres</div>
+      <div class="m-lbl">Water Footprint Conserved</div>
+      <div class="m-equiv">≈ <span id="impact-water-days">0</span> days of drinking water</div>
+    </div>
+    <div class="metric-card">
+      <div class="m-val" id="impact-restaurants">0</div>
+      <div class="m-unit">partner venues</div>
+      <div class="m-lbl">Active Network Venues</div>
+      <div class="m-equiv">Spanning <span id="impact-cities">12</span> metropolitan areas</div>
+    </div>
+  </div>
+
+  <!-- Weekly Goal Progress -->
+  <div class="progress-wrap">
+    <div class="progress-hdr">
+      <h3>Weekly Network Benchmark</h3>
+      <span id="impact-weekly-text">Loading…</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="impact-weekly-progress" style="width:0%"></div>
+    </div>
+    <div class="progress-marks">
+      <span>0</span><span>1,250</span><span>2,500</span><span>3,750</span><span>5,000 Meals</span>
+    </div>
+  </div>
+
+  <!-- Chart -->
+  <div class="chart-wrap">
+    <div class="panel">
+      <div class="panel-head">
+        <h3>Surplus Rescue Volume — 7 Day Trajectory</h3>
+        <span class="panel-badge" style="color:var(--primary);border-color:var(--border);">+18% vs prior week</span>
+      </div>
+      <div class="chart-body">
+        <canvas id="impact-chart" aria-label="Bar chart showing daily rescued meals"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Environmental Equivalents -->
+  <div class="equiv-wrap">
+    <div class="panel-head" style="padding:0;border:none;margin-bottom:16px;">
+      <h3 style="font-family:var(--font-heading);font-weight:700;font-size:1.3rem;">Environmental Footprint Equivalents</h3>
+    </div>
+    <div class="equiv-grid">
+      <div class="equiv-card">
+        <div class="eq-val" id="equiv-cars">6,027</div>
+        <div class="eq-lbl">Passenger vehicles off the road for a full year</div>
+      </div>
+      <div class="equiv-card">
+        <div class="eq-val" id="equiv-trees">142,500</div>
+        <div class="eq-lbl">Tree saplings grown over 10 years</div>
+      </div>
+      <div class="equiv-card">
+        <div class="eq-val" id="equiv-lightbulbs">63.4M</div>
+        <div class="eq-lbl">Hours of commercial LED energy saved</div>
+      </div>
+      <div class="equiv-card">
+        <div class="eq-val" id="equiv-flights">2,280</div>
+        <div class="eq-lbl">Transatlantic flights worth of CO₂ offset</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Achievement Badges -->
+  <div class="badges-wrap" style="margin-bottom:60px;">
+    <div class="panel-head" style="padding:0;border:none;margin-bottom:16px;">
+      <h3 style="font-family:var(--font-heading);font-weight:700;font-size:1.3rem;">Network Milestones</h3>
+    </div>
+    <div class="badges-grid" id="impact-badges">
+      <div class="badge-card earned">
+        <div class="bdg-name">Initial Milestone</div>
+        <div class="bdg-desc">First 100 surplus meals rescued</div>
+      </div>
+      <div class="badge-card earned">
+        <div class="bdg-name">High Volume</div>
+        <div class="bdg-desc">1,000 meals diverted</div>
+      </div>
+      <div class="badge-card earned">
+        <div class="bdg-name">Carbon Offset</div>
+        <div class="bdg-desc">1 tonne CO₂ avoided</div>
+      </div>
+      <div class="badge-card earned">
+        <div class="bdg-name">Metropolitan Champion</div>
+        <div class="bdg-desc">100+ active venue partners</div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /view-impact -->
+
+
+<!-- ============================================================
+     RESERVE MODAL
+     ============================================================ -->
+<div class="modal-overlay hidden" id="modal-reserve" role="dialog" aria-modal="true" aria-labelledby="reserve-modal-title">
+  <div class="modal">
+    <div class="modal-hdr">
+      <h2 class="modal-hdr-title" id="reserve-modal-title">Reserve Meal Order</h2>
+      <button class="modal-close" onclick="FRCustomer.closeReserveModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Food summary -->
+      <div class="rsv-summary">
+        <div class="rsv-em" id="reserve-food-emoji">🍽️</div>
+        <div>
+          <div class="rsv-name" id="reserve-food-name">Food Name</div>
+          <div class="rsv-rest" id="reserve-restaurant">Restaurant Name</div>
+          <div class="rsv-addr" id="reserve-address">Address</div>
+        </div>
+      </div>
+
+      <!-- Price breakdown -->
+      <div class="price-brkdwn">
+        <div class="pb-row">
+          <span>Menu Price</span>
+          <span class="pb-orig" id="reserve-original-price">$18.00</span>
+        </div>
+        <div class="pb-row">
+          <span>Surplus Discount</span>
+          <span class="pb-disc" id="reserve-discount">50% OFF</span>
+        </div>
+        <div class="pb-row total">
+          <span>Final Total</span>
+          <span class="pb-final" id="reserve-final-price">$9.00</span>
+        </div>
+      </div>
+
+      <!-- Pickup window -->
+      <div class="pickup-box">
+        <div>
+          <div class="pickup-lbl">Pickup Cutoff Window</div>
+          <div class="pickup-time" id="reserve-pickup-time">By 9:30 PM today</div>
+        </div>
+      </div>
+
+      <!-- Steps -->
+      <div class="rsv-steps">
+        <div class="rsv-step"><span class="step-n">1</span> Confirm reservation details below</div>
+        <div class="rsv-step"><span class="step-n">2</span> Receive digital QR verification pass</div>
+        <div class="rsv-step"><span class="step-n">3</span> Show QR pass at venue counter for pickup</div>
+      </div>
+
+      <button class="btn-primary btn-full" id="reserve-confirm-btn" onclick="FRCustomer.confirmReservation()">
+        Confirm Reservation &amp; Get Pass
+      </button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     QR CODE MODAL
+     ============================================================ -->
+<div class="modal-overlay hidden" id="modal-qr" role="dialog" aria-modal="true" aria-labelledby="qr-modal-title">
+  <div class="modal modal-qr">
+    <div class="modal-hdr">
+      <h2 id="qr-modal-title">Reservation Pass Confirmed</h2>
+      <button class="modal-close" onclick="FRCustomer.closeQRModal()" aria-label="Close">✕</button>
+    </div>
+    <div class="modal-body text-c">
+
+      <div class="qr-info">
+        <div class="qr-nm" id="qr-food-name">Food Name</div>
+        <div class="qr-rst" id="qr-restaurant">Restaurant</div>
+      </div>
+
+      <div class="qr-wrap">
+        <div id="reserve-qr"></div>
+      </div>
+
+      <div class="qr-id" id="qr-code-text">FR-000000</div>
+
+      <div class="qr-loc">
+        <div style="text-align:center;">
+          <div class="qr-addr" id="qr-address-text">42 Maple Street</div>
+          <div class="qr-pt">Pickup window cutoff: <strong id="qr-pickup-str">9:30 PM</strong> · Final Total: <strong id="qr-price-str">$9.00</strong></div>
+        </div>
+      </div>
+
+      <p class="qr-note">Present this verified pass to staff at pickup counter. Staff will scan to complete your order handoff.</p>
+
+      <button class="btn-primary btn-full" onclick="FRCustomer.closeQRModal()">Done — Return to Marketplace</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- Toast container -->
+<div id="toast-container" aria-live="polite"></div>
+
+
+<!-- Scripts -->
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script src="js/customer.js"></script>
+<script src="js/restaurant.js"></script>
+<script src="js/dashboard.js"></script>
+
+<script>
+  function toggleMobileMenu() {
+    const el = document.getElementById('mobile-menu');
+    if (el) el.classList.toggle('hidden');
+  }
+
+  const _origShow = FRRestaurant.showAddForm;
+  const _origHide = FRRestaurant.hideAddForm;
+  FRRestaurant.showAddForm = function() {
+    const p = document.getElementById('add-listing-panel');
+    p.style.display = 'block';
+    requestAnimationFrame(() => p.scrollIntoView({ behavior: 'smooth', block: 'nearest' }));
+  };
+  FRRestaurant.hideAddForm = function() {
+    document.getElementById('add-listing-panel').style.display = 'none';
+    document.getElementById('add-listing-form').reset();
+    const el = document.getElementById('discount-preview-content');
+    if (el) el.textContent = 'Enter original price and closing hours to preview rate';
+  };
+</script>
+</body>
+</html>
