@@ -28,7 +28,7 @@ Because this is a static site, no build step or package installation is required
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/<your-github-username>/serve2love.git
+   git clone https://github.com/idxva/serve2love.git
    cd serve2love
    ```
 2. Open `index.html` in a modern browser, or serve the directory locally:
@@ -63,7 +63,7 @@ serve2love/
 This repository is ready for GitHub Pages. After enabling Pages from the repository's `master` branch and `/ (root)` folder, it will be available at:
 
 ```text
-https://<your-github-username>.github.io/serve2love/
+https://idxva.github.io/serve2love/
 ```
 
 ## Future improvements
