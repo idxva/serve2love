@@ -73,6 +73,4 @@ https://idxva.github.io/serve2love/
 - Use a backend database and real-time listing updates.
 - Add geolocation, maps, notifications, and accessibility audits.
 
-## License
 
-No license has been selected yet. Add one before using this code in a public production project.
