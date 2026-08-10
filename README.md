@@ -58,13 +58,6 @@ serve2love/
     └── data.js         # Seed data, localStorage, and pricing logic
 ```
 
-## Deployment
-
-This repository is ready for GitHub Pages. After enabling Pages from the repository's `master` branch and `/ (root)` folder, it will be available at:
-
-```text
-https://idxva.github.io/serve2love/
-```
 
 ## Future improvements
 
