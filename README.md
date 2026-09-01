@@ -1,4 +1,4 @@
-# Serve2love
+# Serve2love (In progress)
 
 A polished, front-end prototype for a sustainable surplus-food marketplace. Serve2love helps restaurants publish surplus meals and lets diners discover discounted or donated food before it goes to waste.
 
